@@ -1,9 +1,17 @@
-let url = '';
+const psl = require('psl');
 
-// const getCompany = (url) => {
-//   const parsed = a.parse(url);
-//   return parsed.sld;
-// };
+let url = '';
+const getCompany = (url) => {
+  // parser can't parse slashes, so gotta get rid of paths
+  url = url.split('/')[2];
+
+  const parsed = psl.parse(url).sld;
+
+  // Need the company with the first letter capped
+  const company = parsed.charAt(0).toUpperCase() + parsed.slice(1);
+
+  return company;
+};
 
 chrome.tabs.onActivated.addListener(function(activeInfo) {
   chrome.tabs.get(activeInfo.tabId, function(tab) {
@@ -21,7 +29,8 @@ chrome.tabs.onUpdated.addListener((tabId, change, tab) => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   // 2. A page requested user data, respond with a copy of `user`
   if (message === 'get-url') {
-    sendResponse(url);
+    sendResponse(getCompany(url));
     console.log('got message', url);
+    console.log('company', getCompany(url));
   }
 });
