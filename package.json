@@ -3,7 +3,7 @@
     "description": "stuff",
     "version": "0.0.1",
     "homepage": "http://chrome.google.com/webstore",
-    "author": "ENTER YOUR NAME HERE",
+    "author": "James Zhang",
     "repository": {
         "type": "git",
         "url": "ENTER GIT REPO URL"
@@ -40,8 +40,13 @@
         "js_bundles": [
             {
                 "name": "background",
-                "src": "./src/**/*.js"
+                "src": "./src/background.js"
+            },
+            {
+                "name": "app",
+                "src": "./src/app/**/*.js"
             }
-        ]
+        ],
+        "manifest": "./src/manifest.json"
     }
 }
