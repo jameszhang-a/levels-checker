@@ -1,12 +1,12 @@
 {
-    "name": "levels-check",
-    "description": "stuff",
-    "version": "0.0.1",
-    "homepage": "http://chrome.google.com/webstore",
+    "name": "Levels Checker",
+    "description": "Checks if the current site has their salary information on levels.fyi",
+    "version": "1.0.0",
+    "homepage": "https://github.com/jameszhang-a/levels-checker",
     "author": "James Zhang",
     "repository": {
         "type": "git",
-        "url": "ENTER GIT REPO URL"
+        "url": "https://github.com/jameszhang-a/levels-checker"
     },
     "scripts": {
         "start": "xt-build -e dev -p chrome -w",
