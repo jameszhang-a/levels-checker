@@ -1,4 +1,13 @@
 let url = '';
+const result = document.getElementById('result');
+
+const checkSalary = (company) => {
+  console.log('button clicked');
+  chrome.tabs.create({
+    url    : `https://www.levels.fyi/comp.html?track=Software%20Engineer&search=${company}`,
+    active : false
+  });
+};
 
 async function fetchData() {
   const company = url;
@@ -7,36 +16,30 @@ async function fetchData() {
     `https://api.levels.fyi/v1/search/entity?searchText=${company}`
   );
 
-  console.log(res.status);
-  console.log('in here');
+  // Invalid query
   if (res.status >= 400) {
-    document.getElementById('result').innerHTML = 'Not available';
+    result.innerHTML = 'Not available';
     return;
   }
 
   const { payload } = await res.json();
 
+  // response when the company doesn't exist
   if (payload === 'I9DW+hnEyOhcwFdtrpUWEA==') {
-    document.getElementById('result').innerHTML = 'Not available';
+    result.innerHTML = 'Not available';
   } else {
-    // document.getElementById(
-    //   'result'
-    // ).innerHTML = `<a href='https://www.levels.fyi/company/Amazon'>${company}</a>`;
-    let anchor = document.createElement('a');
-    let link = document.createTextNode(`Check out ${company}`);
-    anchor.appendChild(link);
-    anchor.href = `https://www.levels.fyi/comp.html?track=Software%20Engineer&search=${company}`;
-    anchor.target = '_blank';
-    chrome.tabs.create({ url: 'http://www.google.com', active: false });
+    // if the company exists, have button that goes to the info page
 
-    document.getElementById('container').appendChild(anchor);
+    const gotoButton = document.createElement('button');
+    gotoButton.appendChild(document.createTextNode(`Go to ${company}`));
+    gotoButton.onclick = () => checkSalary(company);
+
+    result.appendChild(gotoButton);
   }
 }
 
 chrome.runtime.sendMessage('get-url', (res) => {
-  // 3. Got an asynchronous response with the data from the background
   console.log('received user data', res);
   url = res;
-  document.getElementById('url').innerHTML = `${url}`;
   fetchData();
 });
